@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('keywords', models.CharField(default='', max_length=256)),
                 ('json', models.CharField(max_length=128)),
                 ('created', models.DateField(default=datetime.date.today)),
-                ('category', models.ManyToManyField(to='workflows.Category')),
+                ('category', models.ManyToManyField(to='data.Category')),
             ],
             options={
             },

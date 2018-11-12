@@ -18,13 +18,13 @@ from django.conf.urls.static import static
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-from workflows import views
+from data import views
 
 
 
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
-	url(r'^workflows/', include('workflows.urls')),
+	url(r'^data/', include('data.urls')),
 	url(r'^admin/', admin.site.urls),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

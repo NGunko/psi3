@@ -19,7 +19,7 @@ import random
 
 django.setup()
 
-from data.models import Category, WorkFlow
+from data.models import Category, Workflow
 #models
 CATEGORY = 'category'
 USER = 'user'
@@ -63,7 +63,7 @@ deserunt mollit anim id est laborum."""[init:end]
 		pass
 
 	def createCategory(name):
-		
+
 		# create 5 categories <<<<<<<<<<<<<<<<<<<<<<<
 		# baseName, call objects
 		# print Category.objects.all()
@@ -73,19 +73,19 @@ deserunt mollit anim id est laborum."""[init:end]
 			cat=Category.objects.get(name=name)
 			print cat
 			print("\n la categoria 1 ya existe")
-		
+
 		except: Category.DoesNotExist:
 			cat=Category()
 			cat.name=name
 			cat.created=datetime.datetime.now(tz=timezone.utc)
-			cat.tooltip="tooltip " 
+			cat.tooltip="tooltip "
 			cat.save()
 
 
-		
+
 		print Category.objects.all()
 
-			
+
 
 	def createWorkflow(self,name,category):
 		# create 13 workflows  <<<<<<<<<<<<<<<<<<<<<<
@@ -104,7 +104,7 @@ deserunt mollit anim id est laborum."""[init:end]
 			work.created=datetime.datetime.now(tz=timezone.utc)
 			work.views=0
 			work.downloads=0
-			work.versionInit="versionInit" 
+			work.versionInit="versionInit"
 			work.client_ip= "%d.%d.%d.%d" %(random.randint(0,255),random.randint(0,255),random.randint(0,255),random.randint(0,255))
 			work.keywords="keywords"
 			work.json=self.getJson()
@@ -112,18 +112,18 @@ deserunt mollit anim id est laborum."""[init:end]
 			cat=Category.objects.get(name=category)
 			work.category.add(cat)
 			work.save()
-		
-		
+
+
 	def obtenerWorkflowAsociado(self,category):
 
-		
-				
+
+
 		cat=Category.objects.get(name=category)
 		workflow=Workflow.objects.filter(category=cat)
 		print("workflows asociados a la categoria " + category)
 		print workflow
 		return workflow
-		
+
 
 
 
@@ -141,7 +141,7 @@ deserunt mollit anim id est laborum."""[init:end]
 		except Category.DoesNotExist:
 			print("Workflow " + slug + "inexistente")
 
-		
+
 
 
 
@@ -291,17 +291,16 @@ deserunt mollit anim id est laborum."""[init:end]
 		"xmippParticlePicking": "420"
 	}
 ]"""
-		
-		
-		
-		
-			
-		
-		
+
+
+
+
+
+
+
 #There's no need to bypass manage.py, since it's a wonderful convenience wrapper around
 	# the Django project administration tools. It can be used to create custom
 	# management commands - e.g. your own commands parallel to shell, dumpdata,
 	# and so on. Not only that creating such commands gives you a very succinct,
 	# boilterplate-free way of writing custom management scripts, it also gives
 	# you a natural location to house them, per application.
-

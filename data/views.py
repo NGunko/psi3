@@ -1,10 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 # Import the Category model
-from workflows.models import Category
-from workflows.models import Workflow
+from data.models import Category
+from data.models import Workflow
 #Add this import at the top of the file
-#from workflows.forms import PageForm
+#from data.forms import PageForm
 
 
 
@@ -13,7 +13,7 @@ def index(request):
   	category_list = Category.objects.order_by('-likes')[:5]
 	"""page_list = Page.objects.order_by('-views')[:5]"""
 	"""context_dict = {'categories': category_list, 'pages': page_list}"""
-	return render(request, 'workflows/index.html')
+	return render(request, 'data/index.html')
 
 def about(request):
 	# Construct a dictionary to pass to the template engine as its context.
@@ -22,7 +22,7 @@ def about(request):
 	# Return a rendered response to send to the client.
 	# We make use of the shortcut function to make our lives easier.
 	# Note that the first parameter is the template we wish to use.
-	return render(request, 'workflows/about.html', context=context_dict)
+	return render(request, 'data/about.html', context=context_dict)
 
 """
 def show_category(request, category_name_slug):
@@ -46,7 +46,7 @@ def show_category(request, category_name_slug):
 	except Category.DoesNotExist:
 		context_dict['category']=None
 		context_dict['pages']=None
-	return render(request, 'workflows/category.html', context_dict)
+	return render(request, 'data/category.html', context_dict)
 
 def add_category(request):
 	form=CategoryForm()
@@ -65,7 +65,7 @@ def add_category(request):
 	# Will handle the bad form, new form, or no form supplied cases.
 	# Render the form with error messages (if any)
 
-	return render(request, 'workflows/add_category.html', {'form': form})
+	return render(request, 'data/add_category.html', {'form': form})
 
 
 def add_page(request, category_name_slug):

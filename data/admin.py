@@ -1,5 +1,5 @@
 from django.contrib import admin
-from workflows.models import Category, Workflow
+from data.models import Category, Workflow
 
 
 

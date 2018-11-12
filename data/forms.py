@@ -1,6 +1,6 @@
 
 from django import forms
-from workflows.models import Workflow, Category
+from data.models import Workflow, Category
 
 """
 class CategoryForm(forms.ModelForm):

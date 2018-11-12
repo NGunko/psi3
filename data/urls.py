@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from workflows import views
+from data import views
 
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
