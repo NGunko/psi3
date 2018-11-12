@@ -51,8 +51,14 @@ deserunt mollit anim id est laborum."""[init:end]
 	# executed by default
 	def handle(self, *args, **options):
 		self.cleanDatabase()
-		self.addCategory(5) # add 5 categories
-		self.addWorkflow(13) # add 13 workflows
+		self.createCategory("category 1")
+		self.createCategory("category 2")
+		self.createWorkflow("workflow 11","category 1")
+		self.createWorkflow("workflow 12","category 1")
+		self.createWorkflow("workflow 13","category 1")
+		self.createWorkflow("workflow 21","category 2")
+		self.createWorkflow("workflow 22","category 2")
+		self.createWorkflow("workflow 23","category 2")
 
 	def cleanDatabase(self):
 		# delete all
@@ -63,39 +69,21 @@ deserunt mollit anim id est laborum."""[init:end]
 		pass
 
 	def createCategory(name):
-
-		# create 5 categories <<<<<<<<<<<<<<<<<<<<<<<
-		# baseName, call objects
-		# print Category.objects.all()
-
-
-		try:
-			cat=Category.objects.get(name=name)
-			print cat
-			print("\n la categoria 1 ya existe")
-
-		except: Category.DoesNotExist:
-			cat=Category()
-			cat.name=name
-			cat.created=datetime.datetime.now(tz=timezone.utc)
-			cat.tooltip="tooltip "
-			cat.save()
-
-
-
+		t = name + ' description'
+		c = Category.objects.get_or_create(name=name)[0]
+		c.tooltip = t
+		c.save()
 		print Category.objects.all()
 
 
 
 	def createWorkflow(self,name,category):
-		# create 13 workflows  <<<<<<<<<<<<<<<<<<<<<<
-		# assign them to random categories
-		# do not assign the sameworkflow to two o mote
-		# categories
-		# add apropriate code
-		# create fake json
 
-		try:
+		elems = self.getJson()
+
+        for p in elems:
+			#sacar el diccioario del workflow
+"""try:
 			work=Workflow.object.get(name=name)
 
 		except Workflow.DoesNotExist:
@@ -111,7 +99,7 @@ deserunt mollit anim id est laborum."""[init:end]
 			work.save()
 			cat=Category.objects.get(name=category)
 			work.category.add(cat)
-			work.save()
+			work.save()"""
 
 
 	def obtenerWorkflowAsociado(self,category):
@@ -120,7 +108,7 @@ deserunt mollit anim id est laborum."""[init:end]
 
 		cat=Category.objects.get(name=category)
 		workflow=Workflow.objects.filter(category=cat)
-		print("workflows asociados a la categoria " + category)
+		print("workflows asociados a la category" + category)
 		print workflow
 		return workflow
 
@@ -136,7 +124,7 @@ deserunt mollit anim id est laborum."""[init:end]
 			work=Workflow.objects.get(slug=slug)
 			cat=workflow.category.get()
 			slugcat=cat.slug
-			print("La categoria de " +slug+ " es " + slugcat)
+			print("La categoryde " +slug+ " es " + slugcat)
 
 		except Category.DoesNotExist:
 			print("Workflow " + slug + "inexistente")
@@ -145,162 +133,53 @@ deserunt mollit anim id est laborum."""[init:end]
 
 
 
-	def getJson(self):
-		return """[
-	{
-		"object.className": "ProtImportMovies",
-		"object.id": "2",
-		"object.label": "import movies",
-		"object.comment": "\\n",
-		"runName": null,
-		"runMode": 0,
-		"importFrom": 0,
-		"filesPath": "",
-		"filesPattern": "Falcon*.mrcs",
-		"copyFiles": false,
-		"acquisitionWizard": null,
-		"voltage": 300.0,
-		"sphericalAberration": 2.0,
-		"amplitudeContrast": 0.1,
-		"magnification": 39548,
-		"samplingRateMode": 0,
-		"samplingRate": 3.54,
-		"scannedPixelSize": 14.0,
-		"gainFile": null
-	},
-	{
-		"object.className": "ProtMovieAlignment",
-		"object.id": "40",
-		"object.label": "movie alignment",
-		"object.comment": "\\n",
-		"runName": null,
-		"runMode": 0,
-		"cleanMovieData": true,
-		"alignMethod": 0,
-		"alignFrame0": 0,
-		"alignFrameN": 0,
-		"doGPU": false,
-		"GPUCore": 0,
-		"winSize": 150,
-		"sumFrame0": 0,
-		"sumFrameN": 0,
-		"cropOffsetX": 0,
-		"cropOffsetY": 0,
-		"cropDimX": 0,
-		"cropDimY": 0,
-		"binFactor": 1,
-		"extraParams": "",
-		"hostName": "localhost",
-		"numberOfThreads": 4,
-		"numberOfMpi": 1,
-		"inputMovies": "2.__attribute__outputMovies"
-	},
-	{
-		"object.className": "ProtCTFFind",
-		"object.id": "82",
-		"object.label": "ctffind4",
-		"object.comment": "\\n",
-		"runName": null,
-		"runMode": 0,
-		"recalculate": false,
-		"sqliteFile": null,
-		"ctfDownFactor": 1.0,
-		"useCftfind4": true,
-		"astigmatism": 100.0,
-		"findPhaseShift": false,
-		"lowRes": 0.05,
-		"highRes": 0.35,
-		"minDefocus": 0.5,
-		"maxDefocus": 4.0,
-		"windowSize": 256,
-		"hostName": "localhost",
-		"numberOfThreads": 4,
-		"numberOfMpi": 1,
-		"inputMicrographs": "40.__attribute__outputMicrographs"
-	},
-	{
-		"object.className": "EmanProtBoxing",
-		"object.id": "369",
-		"object.label": "eman2 - boxer",
-		"object.comment": "",
-		"runName": null,
-		"runMode": 0,
-		"inputMicrographs": "40.__attribute__outputMicrographs"
-	},
-	{
-		"object.className": "ProtUserSubSet",
-		"object.id": "380",
-		"object.label": "3mics",
-		"object.comment": "",
-		"runName": null,
-		"runMode": 0,
-		"other": null,
-		"sqliteFile": "Runs/000082_ProtCTFFind/ctfs_selection.sqlite,",
-		"outputClassName": "SetOfMicrographs",
-		"inputObject": "82.__attribute__outputCTF"
-	},
-	{
-		"object.className": "XmippProtParticlePicking",
-		"object.id": "420",
-		"object.label": "xmipp3 - manual picking",
-		"object.comment": "",
-		"runName": null,
-		"runMode": 0,
-		"memory": 2.0,
-		"inputMicrographs": "40.__attribute__outputMicrographs"
-	},
-	{
-		"object.className": "XmippProtExtractParticles",
-		"object.id": "449",
-		"object.label": "extract 3 mics",
-		"object.comment": "\\n",
-		"runName": null,
-		"runMode": 0,
-		"micsSource": 0,
-		"boxSize": 64,
-		"doSort": false,
-		"rejectionMethod": 0,
-		"maxZscore": 3,
-		"percentage": 5,
-		"doRemoveDust": true,
-		"thresholdDust": 3.5,
-		"doInvert": true,
-		"doFlip": false,
-		"doNormalize": true,
-		"normType": 2,
-		"backRadius": -1,
-		"hostName": "localhost",
-		"numberOfThreads": 1,
-		"numberOfMpi": 1,
-		"ctfRelations": "82.__attribute__outputCTF",
-		"inputCoordinates": "123.__attribute__outputCoordinates",
-		"inputMicrographs": "369.outputMicrographs"
-	},
-	{
-		"object.className": "XmippParticlePickingAutomatic",
-		"object.id": "517",
-		"object.label": "xmipp3 - auto-picking",
-		"object.comment": "",
-		"runName": null,
-		"runMode": 0,
-		"micsToPick": 0,
-		"memory": 2.0,
-		"hostName": "localhost",
-		"numberOfThreads": 1,
-		"numberOfMpi": 1,
-		"xmippParticlePicking": "420"
-	}
-]"""
-
-
-
-
-
-
-
-#There's no need to bypass manage.py, since it's a wonderful convenience wrapper around
-	# the Django project administration tools. It can be used to create custom
-	# management commands - e.g. your own commands parallel to shell, dumpdata,
-	# and so on. Not only that creating such commands gives you a very succinct,
-	# boilterplate-free way of writing custom management scripts, it also gives
-	# you a natural location to house them, per application.
+    def getJson(self):
+        return [
+            {
+                "name": "workflow 11",
+                "description": "Workflow 11 description",
+                "versionInit": "1.0",
+                "client_ip": "192.168.0.1",
+                "keywords": "nothing",
+                "json": "null"
+            },
+            {
+                "name": "workflow 12",
+                "description": "Workflow 12 description",
+                "versionInit": "1.0",
+                "client_ip": "192.168.0.1",
+                "keywords": "nothing",
+                "json": "null"
+            },
+            {
+                "name": "workflow 13",
+                "description": "workflow 13 description",
+                "versionInit": "1.0",
+                "client_ip": "192.168.0.1",
+                "keywords": "nothing",
+                "json": "null"
+            },
+            {
+                "name": "workflow 21",
+                "description": "workflow 21 description",
+                "versionInit": "1.0",
+                "client_ip": "192.168.0.1",
+                "keywords": "nothing",
+                "json": "null"
+            },
+            {
+                "name": "workflow 22",
+                "description": "workflow 22 description",
+                "versionInit": "1.0",
+                "client_ip": "192.168.0.1",
+                "keywords": "nothing",
+                "json": "null"
+            },
+            {
+                "name": "workflow 23",
+                "description": "workflow 23 description",
+                "versionInit": "1.0",
+                "client_ip": "192.168.0.1",
+                "keywords": "nothing",
+                "json": "null"
+            }]
